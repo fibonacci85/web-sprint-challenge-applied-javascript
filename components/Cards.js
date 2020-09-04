@@ -23,7 +23,62 @@
 
 import axios from 'axios';
 
+
+function Cards(obj) {
+ 
+
+const card = document.createElement('div')
+card.classList.add('card')
+
+card.addEventListener('click', () => {
+console.log(obj.headline)    
+})
+
+const headline = document.createElement('div')
+headline.classList.add('headline')
+headline.textContent = obj.headline
+
+const author = document.createElement('div')
+author.classList.add('author')
+
+const imgContainer = document.createElement('div')
+imgContainer.classList.add('img-container')
+
+const image = document.createElement('img')
+image.src = obj.authorPhoto
+
+const name = document.createElement('span')
+name.textContent = `By ${obj.authorName}`
+
+card.append(headline)
+card.append(author)
+author.append(imgContainer)
+imgContainer.append(image)
+author.append(name)
+
+return card
+
+}
+
+const cardEntry = document.querySelector('.cards-container')   
+
+
 axios.get('https://lambda-times-api.herokuapp.com/articles')
 .then(response => {
-console.log(response.data.articles)    
+console.log(response.data.articles)
+
+const data = response.data.articles
+
+// cardEntry.append(Cards(response.data.articles))
+
+for (let [key,value] of Object.entries(data)){
+    value.forEach(items => {
+        cardEntry.append(Cards(items))
+    })
+}
+
 })
+
+.catch(error => {
+    console.log(error,"there's an error in your request")   
+   })
