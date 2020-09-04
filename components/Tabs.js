@@ -13,38 +13,29 @@
 import axios from 'axios';
 
 
-axios.get('https://lambda-times-api.herokuapp.com/topics')
-.then(response => {
-console.log(response.data)    
-})
-
-.catch(error => {
- console.log(error,"there's an error in your request")   
-})
-
-function Topics() {
+function Topics(arrData) {
 
 const topicEntry = document.querySelector('.topics')       
 
 const javascript = document.createElement('div')
 javascript.classList.add('tab')
-javascript.textContent = "JavaScript"
+javascript.textContent = arrData[0]
 
 const bootstrap = document.createElement('div')
 bootstrap.classList.add('tab')
-bootstrap.textContent = "BootStrap"
+bootstrap.textContent = arrData[1]
 
 const technology = document.createElement('div')
 technology.classList.add('tab')
-technology.textContent = "Technology"
+technology.textContent = arrData[2]
 
 const jquery = document.createElement('div')
 jquery.classList.add('tab')
-jquery.textContent = "Jquery"
+jquery.textContent = arrData[3]
 
 const nodejs = document.createElement('div')
 nodejs.classList.add('tab')
-nodejs.textContent = "node.js"
+nodejs.textContent = arrData[4]
 
 topicEntry.append(javascript)
 topicEntry.append(bootstrap)
@@ -56,6 +47,17 @@ return topicEntry
 
 }
 
-Topics()
+
+axios.get('https://lambda-times-api.herokuapp.com/topics')
+.then(response => {
+console.log(response.data.topics)
+
+Topics(response.data.topics)
+
+})
+
+.catch(error => {
+ console.log(error,"there's an error in your request")   
+})
 
  
